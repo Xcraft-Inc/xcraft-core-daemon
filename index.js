@@ -69,7 +69,9 @@ module.exports = function (serverName, serverScript, pipe) {
       try {
         var pid = fs.readFileSync (pidFile, 'utf8');
         process.kill (pid, 'SIGTERM');
-        fs.unlinkSync (pidFile);
+        try {
+          fs.unlinkSync (pidFile);
+        } catch (ex) {}
       } catch (err) {
         if (err.code !== 'ENOENT') {
           xLog.err (err);
