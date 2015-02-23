@@ -80,10 +80,6 @@ module.exports = function (serverName, serverScript, pipe) {
     restart: function () {
       this.stop ();
       this.start ();
-    },
-
-    unref: function () {
-      proc.unref ();
     }
   };
 };
