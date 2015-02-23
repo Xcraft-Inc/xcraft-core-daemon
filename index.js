@@ -46,7 +46,7 @@ module.exports = function (serverName, serverScript, pipe) {
 
         options.stdio = ['ignore', logout, logerr];
 
-        var proc = xProcess.fork (serverScript, [], options, function () {
+        var proc = xProcess.spawn ('node', [serverScript], options, function () {
           fs.unlinkSync (pidFile);
         }, function (line) {
           console.log ('[' + proc.pid + ']: ' + line);
