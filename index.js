@@ -57,7 +57,9 @@ module.exports = function (serverName, serverScript, pipe) {
         xLog.info (serverName + ' server PID: ' + proc.pid);
         fs.writeFileSync (pidFile, proc.pid);
 
-        proc.unref ();
+        if (!pipe) {
+          proc.unref ();
+        }
       }
     },
 
