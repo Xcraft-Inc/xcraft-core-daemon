@@ -19,7 +19,7 @@ module.exports = function (serverName, serverScript, pipe) {
     start: function () {
       var isRunning = false;
       if (fs.existsSync (pidFile)) {
-        xLog.warn ('the ' + serverName + ' server seems running');
+        xLog.info ('the ' + serverName + ' server seems running');
 
         isRunning = true;
         var pid = fs.readFileSync (pidFile, 'utf8');
@@ -28,7 +28,7 @@ module.exports = function (serverName, serverScript, pipe) {
           process.kill (pid, 0);
         } catch (err) {
           if (err.code === 'ESRCH') {
-            xLog.warn ('but the process can not be found, then we try to start it');
+            xLog.info ('but the process can not be found, then we try to start it');
             fs.unlinkSync (pidFile);
             isRunning = false;
           }
