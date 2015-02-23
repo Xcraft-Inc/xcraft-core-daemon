@@ -10,6 +10,8 @@ var xConfig = require ('xcraft-core-etc').load ('xcraft');
 
 
 module.exports = function (serverName, serverScript, pipe) {
+  var proc = null;
+
   var pidFile = path.join (xConfig.xcraftRoot, './var/run/' + serverName + 'd.pid');
   var logFile = path.join (xConfig.xcraftRoot, './var/log/' + serverName + 'd.log');
 
@@ -46,7 +48,7 @@ module.exports = function (serverName, serverScript, pipe) {
 
         options.stdio = ['ignore', logout, logerr];
 
-        var proc = xProcess.spawn ('node', [serverScript], options, function () {
+        proc = xProcess.spawn ('node', [serverScript], options, function () {
           fs.unlinkSync (pidFile);
         }, function (line) {
           console.log ('[' + proc.pid + ']: ' + line);
@@ -78,6 +80,10 @@ module.exports = function (serverName, serverScript, pipe) {
     restart: function () {
       this.stop ();
       this.start ();
+    },
+
+    unref: function () {
+      proc.unref ();
     }
   };
 };
