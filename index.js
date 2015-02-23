@@ -13,7 +13,6 @@ module.exports = function (serverName, serverScript, pipe) {
   var proc = null;
 
   var pidFile = path.join (xConfig.xcraftRoot, './var/run/' + serverName + 'd.pid');
-  var logFile = path.join (xConfig.xcraftRoot, './var/log/' + serverName + 'd.log');
 
   return {
     start: function () {
@@ -43,10 +42,9 @@ module.exports = function (serverName, serverScript, pipe) {
           silent: pipe
         };
 
-        var logout = fs.openSync (logFile, 'a');
-        var logerr = fs.openSync (logFile, 'a');
-
-        options.stdio = ['ignore', logout, logerr];
+        if (!pipe) {
+          options.stdio = ['ignore', 'ignore', 'ignore'];
+        }
 
         proc = xProcess.spawn ('node', [serverScript], options, function () {
           fs.unlinkSync (pidFile);
