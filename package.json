@@ -1,0 +1,19 @@
+{
+  "name": "xcraft-core-daemon",
+  "version": "0.1.0",
+  "description": "Xcraft daemon helpers",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "file",
+    "url": "lib/xcraft-core-daemon"
+  },
+  "dependencies": {
+    "xcraft-core-log": "0.1.0",
+    "xcraft-core-process": "0.1.0"
+  },
+  "author": "Mathieu Schroeter",
+  "license": "MIT"
+}
