@@ -80,6 +80,10 @@ module.exports = function (serverName, serverScript, pipe) {
     restart: function () {
       this.stop ();
       this.start ();
+    },
+
+    isOurDaemon: function () {
+      return proc && proc.pid;
     }
   };
 };
