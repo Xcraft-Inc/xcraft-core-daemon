@@ -37,6 +37,7 @@ module.exports = function (serverName, serverScript, detached) {
       if (!isRunning) {
         var xProcess = require ('xcraft-core-process');
 
+        /* TODO: add logging capabilities. */
         var options = {
           detached: detached,
           stdio:    detached ? 'ignore' : 'inherit'
