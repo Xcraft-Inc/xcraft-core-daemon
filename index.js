@@ -40,7 +40,7 @@ module.exports = function (serverName, serverScript, detached) {
         /* TODO: add logging capabilities. */
         var options = {
           detached: detached,
-          stdio:    detached ? 'ignore' : 'inherit'
+          stdio:    detached ? 'ignore' : 'pipe'
         };
 
         proc = xProcess.spawn ('node', [serverScript], options, function () {
