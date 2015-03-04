@@ -43,7 +43,13 @@ module.exports = function (serverName, serverScript, detached) {
           stdio:    detached ? 'ignore' : 'pipe'
         };
 
-        proc = xProcess.spawn ('node', [serverScript], options, function () {
+        var args = [serverScript];
+        if (process.env.hasOwnProperty ('XCRAFT_DEBUG') &&
+            parseInt (process.env.XCRAFT_DEBUG) === 1) {
+          args.unshift ('--debug');
+        }
+
+        proc = xProcess.spawn ('node', args, options, function () {
           fs.unlinkSync (pidFile);
         }, function (line) {
           console.log ('[' + proc.pid + ']: ' + line);
