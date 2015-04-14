@@ -35,7 +35,7 @@ module.exports = function (serverName, serverScript, detached) {
       }
 
       if (!isRunning) {
-        var xProcess = require ('xcraft-core-process');
+        var xProcess = require ('xcraft-core-process') ('daemon');
 
         /* TODO: add logging capabilities. */
         var options = {
@@ -51,10 +51,6 @@ module.exports = function (serverName, serverScript, detached) {
 
         proc = xProcess.spawn ('node', args, options, function () {
           fs.unlinkSync (pidFile);
-        }, function (line) {
-          console.log ('[' + proc.pid + ']: ' + line);
-        }, function (line) {
-          console.log ('[' + proc.pid + ']: ' + line);
         });
 
         xLog.info (serverName + ' server PID: ' + proc.pid);
