@@ -35,7 +35,7 @@ module.exports = function (serverName, serverScript, detached) {
       }
 
       if (!isRunning) {
-        var xProcess = require ('xcraft-core-process') ('daemon');
+        var xProcess = require ('xcraft-core-process') ({logger: 'daemon'});
 
         /* TODO: add logging capabilities. */
         var options = {
