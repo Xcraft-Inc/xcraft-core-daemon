@@ -49,7 +49,11 @@ module.exports = function (serverName, serverScript, detached) {
           args.unshift ('--debug');
         }
 
-        proc = xProcess.spawn ('node', args, options, function () {
+        proc = xProcess.spawn ('node', args, options, function (err) {
+          if (err) {
+            xLog.err (err);
+          }
+
           fs.unlinkSync (pidFile);
         });
 
