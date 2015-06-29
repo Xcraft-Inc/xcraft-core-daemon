@@ -9,14 +9,15 @@ var xLog    = require ('xcraft-core-log') (moduleName);
 var xConfig = require ('xcraft-core-etc').load ('xcraft');
 
 
-function Daemon (serverName, serverScript, detached) {
+function Daemon (serverName, serverScript, detached, logs) {
   if (!(this instanceof Daemon)) {
-    return new Daemon (serverName, serverScript, detached);
+    return new Daemon (serverName, serverScript, detached, logs);
   }
 
   this.serverName   = serverName;
   this.serverScript = serverScript;
   this.detached     = detached;
+  this.logs         = logs;
 
   this.proc    = null;
   this.pidFile = path.join (xConfig.xcraftRoot, './var/run/' + serverName + 'd.pid');
@@ -49,7 +50,7 @@ Daemon.prototype.start = function () {
     /* TODO: add logging capabilities. */
     var options = {
       detached: self.detached,
-      stdio:    self.detached ? 'ignore' : 'pipe'
+      stdio:    (self.detached || !self.logs) ? 'ignore' : 'pipe'
     };
 
     var args = [self.serverScript];
