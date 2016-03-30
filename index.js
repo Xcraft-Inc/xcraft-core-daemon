@@ -6,7 +6,7 @@ var fs    = require ('fs');
 var path  = require ('path');
 
 var xLog    = require ('xcraft-core-log') (moduleName);
-var xConfig = require ('xcraft-core-etc').load ('xcraft');
+var xConfig = require ('xcraft-core-etc') ().load ('xcraft');
 
 
 function Daemon (serverName, serverScript, detached, logs) {
