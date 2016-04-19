@@ -43,7 +43,10 @@ Daemon.prototype.start = function () {
   }
 
   if (!isRunning) {
-    var xProcess = require ('xcraft-core-process') ({logger: 'daemon'});
+    var xProcess = require ('xcraft-core-process') ({
+      logger: 'daemon',
+      resp:   this.response
+    });
 
     /* TODO: add logging capabilities. */
     var options = {
