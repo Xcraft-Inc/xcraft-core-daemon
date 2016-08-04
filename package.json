@@ -3,17 +3,24 @@
   "version": "0.1.0",
   "description": "Xcraft daemon helpers",
   "main": "index.js",
+  "engines": {
+    "node": ">=6"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
-    "type": "file",
-    "url": "lib/xcraft-core-daemon"
+    "type": "git",
+    "url": "git+https://github.com/Xcraft-Inc/xcraft-core-daemon.git"
   },
   "dependencies": {
     "xcraft-core-log": "0.1.0",
     "xcraft-core-process": "0.1.0"
   },
   "author": "Mathieu Schroeter",
-  "license": "MIT"
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Xcraft-Inc/xcraft-core-daemon/issues"
+  },
+  "homepage": "https://github.com/Xcraft-Inc/xcraft-core-daemon#readme"
 }
