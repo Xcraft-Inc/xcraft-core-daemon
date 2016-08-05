@@ -1,6 +1,6 @@
 {
   "name": "xcraft-core-daemon",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Xcraft daemon helpers",
   "main": "index.js",
   "engines": {
@@ -14,8 +14,8 @@
     "url": "git+https://github.com/Xcraft-Inc/xcraft-core-daemon.git"
   },
   "dependencies": {
-    "xcraft-core-log": "0.1.0",
-    "xcraft-core-process": "0.1.0"
+    "xcraft-core-log": "^1.0.0",
+    "xcraft-core-process": "^1.0.0"
   },
   "author": "Mathieu Schroeter",
   "license": "MIT",
