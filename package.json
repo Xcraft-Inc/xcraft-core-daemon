@@ -6,6 +6,14 @@
   "engines": {
     "node": ">=6"
   },
+  "keywords": [
+    "xcraft",
+    "helpers",
+    "daemon",
+    "process",
+    "pid",
+    "server"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
