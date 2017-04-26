@@ -1,8 +1,7 @@
 'use strict';
 
-var fs    = require ('fs');
-var path  = require ('path');
-
+var fs = require ('fs');
+var path = require ('path');
 
 function Daemon (serverName, serverScript, detached, logs, response) {
   const xConfig = require ('xcraft-core-etc') (null, response).load ('xcraft');
@@ -11,14 +10,17 @@ function Daemon (serverName, serverScript, detached, logs, response) {
     return new Daemon (serverName, serverScript, detached, logs, response);
   }
 
-  this.serverName   = serverName;
+  this.serverName = serverName;
   this.serverScript = serverScript;
-  this.detached     = detached;
-  this.logs         = logs;
-  this.response     = response;
+  this.detached = detached;
+  this.logs = logs;
+  this.response = response;
 
-  this.proc    = null;
-  this.pidFile = path.join (xConfig.xcraftRoot, './var/run/' + serverName + 'd.pid');
+  this.proc = null;
+  this.pidFile = path.join (
+    xConfig.xcraftRoot,
+    './var/run/' + serverName + 'd.pid'
+  );
 }
 
 Daemon.prototype.start = function () {
@@ -35,7 +37,9 @@ Daemon.prototype.start = function () {
       process.kill (pid, 0);
     } catch (err) {
       if (err.code === 'ESRCH') {
-        self.response.log.info ('but the process can not be found, then we try to start it');
+        self.response.log.info (
+          'but the process can not be found, then we try to start it'
+        );
         fs.unlinkSync (self.pidFile);
         isRunning = false;
       }
@@ -45,18 +49,20 @@ Daemon.prototype.start = function () {
   if (!isRunning) {
     var xProcess = require ('xcraft-core-process') ({
       logger: 'daemon',
-      resp:   this.response
+      resp: this.response,
     });
 
     /* TODO: add logging capabilities. */
     var options = {
       detached: self.detached,
-      stdio:    (self.detached || !self.logs) ? 'ignore' : 'pipe'
+      stdio: self.detached || !self.logs ? 'ignore' : 'pipe',
     };
 
     var args = [self.serverScript];
-    if (process.env.hasOwnProperty ('XCRAFT_DEBUG') &&
-        parseInt (process.env.XCRAFT_DEBUG) === 1) {
+    if (
+      process.env.hasOwnProperty ('XCRAFT_DEBUG') &&
+      parseInt (process.env.XCRAFT_DEBUG) === 1
+    ) {
       args.unshift ('--debug');
     }
 
