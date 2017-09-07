@@ -66,7 +66,9 @@ Daemon.prototype.start = function () {
       args.unshift ('--debug');
     }
 
-    self.proc = xProcess.spawn ('node', args, options, function (err) {
+    self.proc = xProcess.spawn (process.execPath, args, options, function (
+      err
+    ) {
       if (err) {
         self.response.log.err (err);
       }
