@@ -14,7 +14,14 @@ function Daemon (serverName, serverScript, detached, logs, response) {
   this.serverScript = serverScript;
   this.detached = detached;
   this.logs = logs;
-  this.response = response;
+  this.response = response || {
+    log: {
+      verb: console.log,
+      info: console.log,
+      warn: console.warn,
+      err: console.error,
+    },
+  };
 
   this.proc = null;
   this.pidFile = path.join (
