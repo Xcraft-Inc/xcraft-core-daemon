@@ -1,6 +1,6 @@
 {
   "name": "xcraft-core-daemon",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Xcraft daemon helpers",
   "main": "index.js",
   "engines": {
