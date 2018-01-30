@@ -104,7 +104,9 @@ Daemon.prototype.stop = function () {
     process.kill (pid, 'SIGTERM');
     try {
       fs.unlinkSync (self.pidFile);
-    } catch (ex) {}
+    } catch (ex) {
+      // ignore exceptions
+    }
   } catch (err) {
     if (err.code !== 'ENOENT') {
       self.response.log.err (err);
