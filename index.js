@@ -80,7 +80,11 @@ Daemon.prototype.start = function () {
         self.response.log.err (err);
       }
 
-      fs.unlinkSync (self.pidFile);
+      try {
+        fs.unlinkSync (self.pidFile);
+      } catch (ex) {
+        // ignore exceptions
+      }
     });
 
     self.response.log.info (self.serverName + ' server PID: ' + self.proc.pid);
