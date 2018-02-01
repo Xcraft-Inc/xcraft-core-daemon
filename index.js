@@ -4,9 +4,9 @@ const fs = require ('fs');
 const path = require ('path');
 
 class Daemon {
-  constructor (serverName, serverScript, detached, logs, response) {
+  constructor (serverName, serverScript, options, logs, response) {
     if (!(this instanceof Daemon)) {
-      return new Daemon (serverName, serverScript, detached, logs, response);
+      return new Daemon (serverName, serverScript, options, logs, response);
     }
 
     const xConfig = require ('xcraft-core-etc') (null, response).load (
@@ -15,7 +15,7 @@ class Daemon {
 
     this.serverName = serverName;
     this.serverScript = serverScript;
-    this.detached = detached;
+    this.detached = options.detached;
     this.logs = logs;
     this.response = response || {
       log: {
