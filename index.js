@@ -15,7 +15,7 @@ class Daemon {
 
     this.serverName = serverName;
     this.serverScript = serverScript;
-    this.detached = options.detached;
+    this._options = options;
     this.logs = logs;
     this.response = response || {
       log: {
@@ -64,8 +64,8 @@ class Daemon {
 
       /* TODO: add logging capabilities. */
       const options = {
-        detached: this.detached,
-        stdio: this.detached || !this.logs ? 'ignore' : 'pipe',
+        detached: this._options.detached,
+        stdio: this._options.detached || !this.logs ? 'ignore' : 'pipe',
         env: this.env || process.env,
       };
 
@@ -94,7 +94,7 @@ class Daemon {
       );
       fs.writeFileSync (this.pidFile, this.proc.pid);
 
-      if (this.detached) {
+      if (this._options.detached) {
         this.proc.unref ();
       }
     }
