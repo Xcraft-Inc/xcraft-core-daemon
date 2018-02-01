@@ -4,20 +4,18 @@ const fs = require ('fs');
 const path = require ('path');
 
 class Daemon {
-  constructor (serverName, serverScript, options, logs, response) {
+  constructor (serverName, serverScript, options, logs, resp) {
     if (!(this instanceof Daemon)) {
-      return new Daemon (serverName, serverScript, options, logs, response);
+      return new Daemon (serverName, serverScript, options, logs, resp);
     }
 
-    const xConfig = require ('xcraft-core-etc') (null, response).load (
-      'xcraft'
-    );
+    const xConfig = require ('xcraft-core-etc') (null, resp).load ('xcraft');
 
-    this.serverName = serverName;
-    this.serverScript = serverScript;
+    this._serverName = serverName;
+    this._serverScript = serverScript;
     this._options = options;
-    this.logs = logs;
-    this.response = response || {
+    this._logs = logs;
+    this._resp = resp || {
       log: {
         verb: console.log,
         info: console.log,
@@ -26,8 +24,8 @@ class Daemon {
       },
     };
 
-    this.proc = null;
-    this.pidFile = path.join (
+    this._proc = null;
+    this._pidFile = path.join (
       xConfig.xcraftRoot,
       './const/run/' + serverName + 'd.pid'
     );
@@ -35,22 +33,20 @@ class Daemon {
 
   start () {
     let isRunning = false;
-    if (fs.existsSync (this.pidFile)) {
-      this.response.log.info (
-        'the ' + this.serverName + ' server seems running'
-      );
+    if (fs.existsSync (this._pidFile)) {
+      this._resp.log.info ('the ' + this._serverName + ' server seems running');
 
       isRunning = true;
-      const pid = fs.readFileSync (this.pidFile, 'utf8');
+      const pid = fs.readFileSync (this._pidFile, 'utf8');
 
       try {
         process.kill (pid, 0);
       } catch (err) {
         if (err.code === 'ESRCH') {
-          this.response.log.info (
+          this._resp.log.info (
             'but the process can not be found, then we try to start it'
           );
-          fs.unlinkSync (this.pidFile);
+          fs.unlinkSync (this._pidFile);
           isRunning = false;
         }
       }
@@ -59,17 +55,17 @@ class Daemon {
     if (!isRunning) {
       const xProcess = require ('xcraft-core-process') ({
         logger: 'daemon',
-        resp: this.response,
+        resp: this._resp,
       });
 
       /* TODO: add logging capabilities. */
       const options = {
         detached: this._options.detached,
-        stdio: this._options.detached || !this.logs ? 'ignore' : 'pipe',
-        env: this.env || process.env,
+        stdio: this._options.detached || !this._logs ? 'ignore' : 'pipe',
+        env: this._options.env || process.env,
       };
 
-      const args = [this.serverScript];
+      const args = [this._serverScript];
       if (
         process.env.hasOwnProperty ('XCRAFT_DEBUG') &&
         parseInt (process.env.XCRAFT_DEBUG) === 1
@@ -77,41 +73,39 @@ class Daemon {
         args.unshift ('--debug');
       }
 
-      this.proc = xProcess.spawn (process.execPath, args, options, err => {
+      this._proc = xProcess.spawn (process.execPath, args, options, err => {
         if (err) {
-          this.response.log.err (err);
+          this._resp.log.err (err);
         }
 
         try {
-          fs.unlinkSync (this.pidFile);
+          fs.unlinkSync (this._pidFile);
         } catch (ex) {
           // ignore exceptions
         }
       });
 
-      this.response.log.info (
-        this.serverName + ' server PID: ' + this.proc.pid
-      );
-      fs.writeFileSync (this.pidFile, this.proc.pid);
+      this._resp.log.info (this._serverName + ' server PID: ' + this._proc.pid);
+      fs.writeFileSync (this._pidFile, this._proc.pid);
 
       if (this._options.detached) {
-        this.proc.unref ();
+        this._proc.unref ();
       }
     }
   }
 
   stop () {
     try {
-      const pid = fs.readFileSync (this.pidFile, 'utf8');
+      const pid = fs.readFileSync (this._pidFile, 'utf8');
       process.kill (pid, 'SIGTERM');
       try {
-        fs.unlinkSync (this.pidFile);
+        fs.unlinkSync (this._pidFile);
       } catch (ex) {
         // ignore exceptions
       }
     } catch (err) {
       if (err.code !== 'ENOENT') {
-        this.response.log.err (err);
+        this._resp.log.err (err);
       }
     }
   }
@@ -122,7 +116,7 @@ class Daemon {
   }
 
   isOurDaemon () {
-    return this.proc && this.proc.pid;
+    return this._proc && this._proc.pid;
   }
 }
 
