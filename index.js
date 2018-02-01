@@ -31,6 +31,10 @@ class Daemon {
     );
   }
 
+  get proc () {
+    return this._proc;
+  }
+
   start () {
     let isRunning = false;
     if (fs.existsSync (this._pidFile)) {
