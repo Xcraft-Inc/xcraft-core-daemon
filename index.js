@@ -27,7 +27,7 @@ class Daemon {
     this._proc = null;
     this._pidFile = path.join (
       xConfig.xcraftRoot,
-      './const/run/' + serverName + 'd.pid'
+      './var/run/' + serverName + 'd.pid'
     );
   }
 
