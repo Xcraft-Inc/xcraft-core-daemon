@@ -5,13 +5,13 @@ const path = require ('path');
 
 class Daemon {
   constructor (serverName, serverScript, detached, logs, response) {
-    const xConfig = require ('xcraft-core-etc') (null, response).load (
-      'xcraft'
-    );
-
     if (!(this instanceof Daemon)) {
       return new Daemon (serverName, serverScript, detached, logs, response);
     }
+
+    const xConfig = require ('xcraft-core-etc') (null, response).load (
+      'xcraft'
+    );
 
     this.serverName = serverName;
     this.serverScript = serverScript;
