@@ -74,7 +74,7 @@ class Daemon {
         process.env.hasOwnProperty ('XCRAFT_DEBUG') &&
         parseInt (process.env.XCRAFT_DEBUG) === 1
       ) {
-        args.unshift (`--inspect=${this._options.port || 9229}`);
+        args.unshift (`--inspect=${this._options.inspectPort || 9229}`);
       }
 
       this._proc = xProcess.spawn (process.execPath, args, options, err => {
