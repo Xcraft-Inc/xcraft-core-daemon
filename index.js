@@ -1,15 +1,15 @@
 'use strict';
 
-const fs = require ('fs');
-const path = require ('path');
+const fs = require('fs');
+const path = require('path');
 
 class Daemon {
-  constructor (serverName, serverScript, options, logs, resp) {
+  constructor(serverName, serverScript, options, logs, resp) {
     if (!(this instanceof Daemon)) {
-      return new Daemon (serverName, serverScript, options, logs, resp);
+      return new Daemon(serverName, serverScript, options, logs, resp);
     }
 
-    const xConfig = require ('xcraft-core-etc') (null, resp).load ('xcraft');
+    const xConfig = require('xcraft-core-etc')(null, resp).load('xcraft');
 
     this._serverName = serverName;
     this._serverScript = serverScript;
@@ -25,39 +25,39 @@ class Daemon {
     };
 
     this._proc = null;
-    this._pidFile = path.join (
+    this._pidFile = path.join(
       xConfig.xcraftRoot,
       './var/run/' + serverName + 'd.pid'
     );
   }
 
-  get proc () {
+  get proc() {
     return this._proc;
   }
 
-  start () {
+  start() {
     let isRunning = false;
-    if (fs.existsSync (this._pidFile)) {
-      this._resp.log.info ('the ' + this._serverName + ' server seems running');
+    if (fs.existsSync(this._pidFile)) {
+      this._resp.log.info('the ' + this._serverName + ' server seems running');
 
       isRunning = true;
-      const pid = fs.readFileSync (this._pidFile, 'utf8');
+      const pid = fs.readFileSync(this._pidFile, 'utf8');
 
       try {
-        process.kill (pid, 0);
+        process.kill(pid, 0);
       } catch (err) {
         if (err.code === 'ESRCH') {
-          this._resp.log.info (
+          this._resp.log.info(
             'but the process can not be found, then we try to start it'
           );
-          fs.unlinkSync (this._pidFile);
+          fs.unlinkSync(this._pidFile);
           isRunning = false;
         }
       }
     }
 
     if (!isRunning) {
-      const xProcess = require ('xcraft-core-process') ({
+      const xProcess = require('xcraft-core-process')({
         logger: 'daemon',
         resp: this._resp,
       });
@@ -71,55 +71,55 @@ class Daemon {
 
       const args = [this._serverScript];
       if (
-        process.env.hasOwnProperty ('XCRAFT_DEBUG') &&
-        parseInt (process.env.XCRAFT_DEBUG) === 1
+        process.env.hasOwnProperty('XCRAFT_DEBUG') &&
+        parseInt(process.env.XCRAFT_DEBUG) === 1
       ) {
-        args.unshift (`--inspect=${this._options.inspectPort || 9229}`);
+        args.unshift(`--inspect=${this._options.inspectPort || 9229}`);
       }
 
-      this._proc = xProcess.spawn (process.execPath, args, options, err => {
+      this._proc = xProcess.spawn(process.execPath, args, options, err => {
         if (err) {
-          this._resp.log.err (err);
+          this._resp.log.err(err);
         }
 
         try {
-          fs.unlinkSync (this._pidFile);
+          fs.unlinkSync(this._pidFile);
         } catch (ex) {
           // ignore exceptions
         }
       });
 
-      this._resp.log.info (this._serverName + ' server PID: ' + this._proc.pid);
-      fs.writeFileSync (this._pidFile, this._proc.pid);
+      this._resp.log.info(this._serverName + ' server PID: ' + this._proc.pid);
+      fs.writeFileSync(this._pidFile, this._proc.pid);
 
       if (this._options.detached) {
-        this._proc.unref ();
+        this._proc.unref();
       }
     }
   }
 
-  stop () {
+  stop() {
     try {
-      const pid = fs.readFileSync (this._pidFile, 'utf8');
-      process.kill (pid, 'SIGTERM');
+      const pid = fs.readFileSync(this._pidFile, 'utf8');
+      process.kill(pid, 'SIGTERM');
       try {
-        fs.unlinkSync (this._pidFile);
+        fs.unlinkSync(this._pidFile);
       } catch (ex) {
         // ignore exceptions
       }
     } catch (err) {
       if (err.code !== 'ENOENT') {
-        this._resp.log.err (err);
+        this._resp.log.err(err);
       }
     }
   }
 
-  restart () {
-    this.stop ();
-    this.start ();
+  restart() {
+    this.stop();
+    this.start();
   }
 
-  isOurDaemon () {
+  isOurDaemon() {
     return this._proc && this._proc.pid;
   }
 }
