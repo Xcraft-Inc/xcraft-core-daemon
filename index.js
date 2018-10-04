@@ -77,17 +77,22 @@ class Daemon {
         args.unshift(`--inspect=${this._options.inspectPort || 9229}`);
       }
 
-      this._proc = xProcess.spawn(process.execPath, args, options, err => {
-        if (err) {
-          this._resp.log.err(err);
-        }
+      this._proc = xProcess.spawn(
+        this._options.bin || process.execPath,
+        args,
+        options,
+        err => {
+          if (err) {
+            this._resp.log.err(err);
+          }
 
-        try {
-          fs.unlinkSync(this._pidFile);
-        } catch (ex) {
-          // ignore exceptions
+          try {
+            fs.unlinkSync(this._pidFile);
+          } catch (ex) {
+            // ignore exceptions
+          }
         }
-      });
+      );
 
       this._resp.log.info(this._serverName + ' server PID: ' + this._proc.pid);
       fs.writeFileSync(this._pidFile, this._proc.pid);
