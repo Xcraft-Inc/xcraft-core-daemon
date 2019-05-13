@@ -22,7 +22,7 @@
     "url": "git+https://github.com/Xcraft-Inc/xcraft-core-daemon.git"
   },
   "dependencies": {
-    "xcraft-core-etc": "^1.0.0",
+    "xcraft-core-etc": "^2.0.0",
     "xcraft-core-process": "^1.0.0"
   },
   "author": "Mathieu Schroeter",
