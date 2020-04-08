@@ -81,7 +81,7 @@ class Daemon {
         this._options.bin || process.execPath,
         args,
         options,
-        err => {
+        (err) => {
           if (err) {
             this._resp.log.err(err);
           }
