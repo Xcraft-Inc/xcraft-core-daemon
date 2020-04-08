@@ -1,4 +1,3 @@
-
 # xcraft-core-daemon
 
 Manage the lifecycle of a daemon.
