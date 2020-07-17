@@ -77,6 +77,10 @@ class Daemon {
         args.unshift(`--inspect=${this._options.inspectPort || 9229}`);
       }
 
+      if (process.argv.indexOf('--no-sandbox') !== -1) {
+        args.unshift('--no-sandbox');
+      }
+
       this._proc = xProcess.spawn(
         this._options.bin || process.execPath,
         args,
