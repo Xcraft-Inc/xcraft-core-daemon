@@ -99,7 +99,7 @@ class Daemon {
       );
 
       this._resp.log.info(this._serverName + ' server PID: ' + this._proc.pid);
-      fs.writeFileSync(this._pidFile, this._proc.pid);
+      fs.writeFileSync(this._pidFile, `${this._proc.pid}`);
 
       if (this._options.detached) {
         this._proc.unref();
