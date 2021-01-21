@@ -69,7 +69,7 @@ class Daemon {
         env: this._options.env || process.env,
       };
 
-      const args = [this._serverScript];
+      let args = [this._serverScript];
       if (
         process.env.hasOwnProperty('XCRAFT_DEBUG') &&
         parseInt(process.env.XCRAFT_DEBUG) === 1
@@ -79,6 +79,10 @@ class Daemon {
 
       if (process.argv.indexOf('--no-sandbox') !== -1) {
         args.unshift('--no-sandbox');
+      }
+
+      if (this._options.argv) {
+        args = args.concat(this._options.argv);
       }
 
       this._proc = xProcess.spawn(
