@@ -1,6 +1,6 @@
 'use strict';
 
-const fs = require('fs');
+const fse = require('fs-extra');
 const path = require('path');
 
 class Daemon {
@@ -37,11 +37,11 @@ class Daemon {
 
   start() {
     let isRunning = false;
-    if (fs.existsSync(this._pidFile)) {
+    if (fse.existsSync(this._pidFile)) {
       this._resp.log.info('the ' + this._serverName + ' server seems running');
 
       isRunning = true;
-      const pid = fs.readFileSync(this._pidFile, 'utf8');
+      const pid = fse.readFileSync(this._pidFile, 'utf8');
 
       try {
         process.kill(pid, 0);
@@ -50,7 +50,7 @@ class Daemon {
           this._resp.log.info(
             'but the process can not be found, then we try to start it'
           );
-          fs.unlinkSync(this._pidFile);
+          fse.removeSync(this._pidFile);
           isRunning = false;
         }
       }
@@ -95,7 +95,7 @@ class Daemon {
           }
 
           try {
-            fs.unlinkSync(this._pidFile);
+            fse.removeSync(this._pidFile);
           } catch (ex) {
             // ignore exceptions
           }
@@ -103,7 +103,7 @@ class Daemon {
       );
 
       this._resp.log.info(this._serverName + ' server PID: ' + this._proc.pid);
-      fs.writeFileSync(this._pidFile, `${this._proc.pid}`);
+      fse.writeFileSync(this._pidFile, `${this._proc.pid}`);
 
       if (this._options.detached) {
         this._proc.unref();
@@ -113,10 +113,10 @@ class Daemon {
 
   stop() {
     try {
-      const pid = fs.readFileSync(this._pidFile, 'utf8');
+      const pid = fse.readFileSync(this._pidFile, 'utf8');
       process.kill(pid, 'SIGTERM');
       try {
-        fs.unlinkSync(this._pidFile);
+        fse.removeSync(this._pidFile);
       } catch (ex) {
         // ignore exceptions
       }
