@@ -21,6 +21,7 @@ class Daemon {
         info: console.log,
         warn: console.warn,
         err: console.error,
+        dbg: console.log,
       },
     };
 
