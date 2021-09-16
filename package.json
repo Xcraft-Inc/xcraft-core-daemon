@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "fs-extra": "^9.1.0",
-    "xcraft-core-etc": "^2.0.0",
+    "xcraft-core-etc": "^3.0.0",
     "xcraft-core-process": "^1.0.0"
   },
   "author": "Mathieu Schroeter",
