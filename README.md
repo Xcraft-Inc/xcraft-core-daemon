@@ -116,7 +116,7 @@ La méthode `start()` accepte un objet d'options avec les propriétés suivantes
 
 ## Cas d'utilisation typiques
 
-1. **Serveur Xcraft**: Le module est peut être utilisé pour démarrer et gérer le serveur Xcraft lui-même.
+1. **Serveur Xcraft**: Le module peut optionellement être utilisé pour démarrer et gérer le serveur Xcraft lui-même.
 
 2. **Services d'arrière-plan**: Idéal pour les services qui doivent continuer à fonctionner indépendamment du processus principal.
 
