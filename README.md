@@ -4,6 +4,17 @@
 
 Le module `xcraft-core-daemon` fournit des outils pour gérer le cycle de vie des processus démons dans l'écosystème Xcraft. Il permet de démarrer, arrêter et redémarrer des scripts Node.js en tant que services d'arrière-plan, tout en gérant leur état via des fichiers PID.
 
+## Sommaire
+
+- [Structure du module](#structure-du-module)
+- [Fonctionnement global](#fonctionnement-global)
+- [Exemples d'utilisation](#exemples-dutilisation)
+- [Interactions avec d'autres modules](#interactions-avec-dautres-modules)
+- [Configuration avancée](#configuration-avancée)
+- [Détails des sources](#détails-des-sources)
+- [Cas d'utilisation typiques](#cas-dutilisation-typiques)
+- [Gestion des erreurs](#gestion-des-erreurs)
+
 ## Structure du module
 
 Le module expose une classe principale `Daemon` qui encapsule toutes les fonctionnalités nécessaires pour gérer un processus démon:
